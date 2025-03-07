@@ -1,101 +1,89 @@
+// src/app/page.tsx
+"use client";
+
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth";
 import Image from "next/image";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { isAuthenticated, user } = useAuth();
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    if (isAuthenticated() && user) {
+      router.push(`/dashboard/${user.role}`);
+    }
+  }, [isAuthenticated, user, router]);
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <div className="w-full max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
+        {/* Single Centered Logo */}
+        <div className="w-40 h-40 md:w-48 md:h-48 mb-8 relative">
+          <Image 
+            src="/bangbangan-logo.png" 
+            alt="Bangbangan Copra Trading Logo" 
+            layout="fill" 
+            objectFit="contain"
+            priority
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        
+        {/* Main Heading */}
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-slate-800 text-center mb-4">
+          Bangbangan Copra Trading
+        </h1>
+        
+        {/* Subheading */}
+        <p className="mx-auto max-w-xl text-slate-600 text-lg md:text-xl text-center mb-8">
+          Procurement Management System with Customer Credit Assessment
+        </p>
+        
+        {/* Get Started Button */}
+        <Link href="/auth/login">
+          <Button 
+            size="lg" 
+            className="bg-amber-800 hover:bg-amber-900 text-white px-8 py-6 text-lg rounded-lg transition-all hover:shadow-md"
+          >
+            Get Started
+          </Button>
+        </Link>
+        
+        {/* Login Link - Small text for alternate login */}
+        <div className="mt-4">
+          <Link href="/auth/login" className="text-slate-500 hover:text-slate-700 text-sm">
+            Login
+          </Link>
+        </div>
+
+        {/* Features Section */}
+        <div className="w-full mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">Supplier Management</h3>
+            <p className="text-slate-600 text-sm">Track and manage suppliers, transactions, and inventory efficiently.</p>
+          </div>
+          
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">Credit Assessment</h3>
+            <p className="text-slate-600 text-sm">Evaluate and monitor customer credit scores and loan histories.</p>
+          </div>
+          
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-lg mb-2 text-slate-800">Transaction Tracking</h3>
+            <p className="text-slate-600 text-sm">Record and manage all copra trading transactions seamlessly.</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Simple Footer */}
+      <div className="w-full py-6 mt-auto">
+        <p className="text-center text-slate-400 text-sm">
+          © {new Date().getFullYear()} Bangbangan Copra Trading. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 }
