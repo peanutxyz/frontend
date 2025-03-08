@@ -175,7 +175,7 @@ export default function AdminDashboardPage() {
           <StatCard
             title="Portfolio Value"
             value={`₱${(stats?.loans?.totalLoanAmount || 0).toLocaleString()}`}
-            subtitle="Total outstanding capital"
+            subtitle="Total outstanding loan"
             icon={CircleDollarSign}
             delay={400}
           />
