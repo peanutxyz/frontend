@@ -43,17 +43,22 @@ export default function AdminDashboardPage() {
       
       setIsUpdatingLimit(true);
       // Convert the raw string to a number, removing any non-numeric characters
-      const numericValue = parseInt(rawLoanLimit.replace(/[^\d]/g, ''));
+      const numericValue = parseFloat(rawLoanLimit.replace(/[^\d]/g, ''));
       
-      await dashboardApi.updateLoanLimit(numericValue);
+      // Log the value before sending to make sure it's correct
+      console.log("Sending loan limit update:", numericValue);
+      
+      const response = await dashboardApi.updateLoanLimit(numericValue);
+      console.log("Update response:", response);
+      
       toast.success("Loan limit updated successfully");
       
       // Clear the input field
       setRawLoanLimit("");
       
       // Refresh data
-      const response = await dashboardApi.getAdminStats();
-      setStats(response.data);
+      const updatedStats = await dashboardApi.getAdminStats();
+      setStats(updatedStats.data);
     } catch (error) {
       console.error('Failed to update loan limit:', error);
       toast.error("Failed to update loan limit");
@@ -61,7 +66,6 @@ export default function AdminDashboardPage() {
       setIsUpdatingLimit(false);
     }
   };
-
   const StatCard = ({ title, value, subtitle, icon: Icon, variant = "default", delay = 0 }: any) => (
     <Card 
       className={`hover:shadow-lg transition-all duration-300 overflow-hidden ${

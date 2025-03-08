@@ -80,6 +80,7 @@ export const dashboardApi = {
   getAdminStats: async () => {
     try {
       const response = await api.get('/dashboard/stats');
+      console.log('Admin stats response:', response.data);
       return response.data;
     } catch (error) {
       console.error('Admin Stats Error:', error);
